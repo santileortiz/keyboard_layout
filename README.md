@@ -3,18 +3,27 @@ Internationalization of computer keyboards
 
 This file contains some ideas I've had lately about how to improve
 internationalization of input methods on elementary OS (mainly keyboard input).
+At first I wanted to write a blueprint but I think there is a lot to be
+discussed before proposing what to actually do, so I will write down all my
+ideas here and hopefully from this and some feedback we can get a blueprint we
+can work on.
+
+This is a very long text but at least for now is what I think I need to explain
+my reasoning hopefully this will be summarized in a more readable way later, but
+you can always skip to the end where I tried to summarize everything in some
+bullet points.
 
 The problem
 -----------
 
 There are a LOT of different types of keyboard devices, and it's very hard to
-guess which one the user has, but at least this layer has been aliviated
-greatly by the fact that almost all of modern keyboards use USB snd also that
-the kernel handles the translation of keypresses to keycodes and provides it to
-us through evdev. But even if we can decode keyboards relativeley esasily,
+guess which one the user has, but at least this layer has been alleviated
+greatly by the fact that almost all of modern keyboards use USB and also that
+the kernel handles the translation of key presses to keycodes and provides it to
+us through evdev. But even if we can decode keyboards relatively easily,
 there is also the problem of which language the user _wants_ to type on their
 PC, this we cannot guess from basically anywhere but the user's locale
-configuration, and still people who don't usually type in english will most
+configuration, and still people who don't usually type in English will most
 likely want to type not just in another language but several of them; this
 happens for several reasons, for example applications with a lot of shortcuts
 may be designed better for us layouts, but typing some characters is impossible
@@ -24,7 +33,7 @@ In the times X was developed the keyboard input was very basic and it didn't
 had support for some features that were expected in other languages, this is
 why the x keyboard extension was devised, it was a way of allowing switching
 the symbols that every key had assigned on the fly, it added more modifier
-keys, added support for unicode (I think this wasn't befor but I'm not sure)
+keys, added support for Unicode (I think this wasn't before but I'm not sure)
 this was a good thing but it still left out several languages that are quite
 complex such as Japanese or Chinese, then ibus and several other input methods
 were created to support these but to correctly make them work they had to
@@ -42,11 +51,11 @@ interface and this is what elementary actually does, others I know about were
 Ubuntu and Gnome, and I say was because they decided to remove them to get a
 cleaner interface and better handle more advanced input methods without
 conflicting with these options (which some times can even conflict with
-themselves), this caused massive anger on users because they coudn't easily
+themselves), this caused massive anger on users because they couldn't easily
 change their layouts as they did before, this was solved but most solutions
 I've seen are quite hacky, and I think we need a more drastic approach.
 
-Currently the workflow for anyone trying to type another language is:
+Currently the work flow for anyone trying to type another language is:
 
     1. Try to set up the language from the operating system's settings panel if
        they find it then they are fine and happy.
@@ -66,10 +75,10 @@ Currently the workflow for anyone trying to type another language is:
 
 After doing this even if they succeed at step 1, there are some caveats, for
 example a lot of people got used to switch layouts by using both shifts, they
-will be dissapointed to see this does not work anymore, but the only reason it
+will be disappointed to see this does not work anymore, but the only reason it
 worked before was because X was the sole manager of input methods and it did
 some strange stuff like send X commands as keysyms, this is not how keyboard
-shorcuts are handled anymore and will be gone after we move to wayland.
+shortcuts are handled anymore and will be gone after we move to Wayland.
 
 There are other issues with the fact that the panels provided by these input
 methods look ugly in elementary which is not nice.
@@ -80,7 +89,7 @@ The solution
 
 To me input methods can be classified in 2 types, let's call them _basic_ and
 _advanced_, basic input methods map 1 _input thing_ to exactly 1 _keysym_ where
-_input thing_ stands for either one keypress, several modifier keypresses and 
+_input thing_ stands for either one key press, several modifier key presses and 
 another key or a dead key followed by several other keys, the point here is
 the computer can know when to translate the input to the needed keysym by itself
 either because the keymap file tells it, or a dead key sequence matched. This can
@@ -95,7 +104,7 @@ separate characters into words (note that I don't know any of these languages
 so this is what I have guessed from reading about them). This is also the case
 if for example we wanted to provide some kind of predictive text input method
 like the one provided on phones now a days. The point here is we can't know
-what the user wants to translate their keypresses, we need to provide an
+what the user wants to translate their key presses, we need to provide an
 interface to them (usually a bubble with options), and then wait for them to
 choose so we can now translate them.
 
@@ -104,7 +113,7 @@ advanced input methods need a basic input method to get the characters they
 want to translate into keysyms, so these sit actually on top of basic ones, and
 they should work with them instead of trying to override everything they do.
 
-When I was thinking about this, I soon asked mysef where the keyboard shortcut
+When I was thinking about this, I soon asked myself where the keyboard shortcut
 system should lie, for some reason I thought having keycode based shortcuts was
 a good approach, that turns out to be unfeasible because no one has a standard
 way to reference keycodes, so I came to the conclusion that the current
@@ -112,16 +121,16 @@ approach is good as it is. This means mapping translated keysyms to actions, so
 this would also come after the basic input method layer, the caveat here is
 that not every keysym is available in all keyboards, and people using foreign
 layouts are always confused when a Photoshop tutorial tells them to use some
-shortcut that uses { or [ , to aliviate these, applications should at least try
+shortcut that uses { or \[ , to alleviate these, applications should at least try
 to only use characters from "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890,." which are
 found in about 99% of the keyboards (I think), Apple knows this and none of
 their applications use characters outside from these (and also they control the
 symbols printed on their keyboards, we don't). This of course should be
-handeled carefully if we want to keep happy people who expect keysymless
+handled carefully if we want to keep happy people who expect keysym-less
 keyboard shortcuts.
 
 On top of all this we should provide nice graphical interfaces so users can
-configure stuff to their liking which means basicallu provide means of changing
+configure stuff to their liking which means basically provide means of changing
 the basic input method and specific options to the advanced method they are
 using (if they are using one). Here I think advanced methods should be
 "bundled" with a basic one that the user will be able to change if for example
@@ -133,9 +142,9 @@ Implementation
 
 Probably the most important factor here is that X is dying and being replaced
 by Wayland, most of the linux space is moving towards Wayland which will render
-all X specific stuff useless but also will open the oportunity to lets us
+all X specific stuff useless but also will open the opportunity to lets us
 choose where do we want to go. Either way we must be aware that some stuff will
-either be useless in some time (codewise) or we need to start moving to the
+either be useless in some time (code wise) or we need to start moving to the
 actual libraries that will be used on Wayland.
 
 To provide the kind of integration a user would expect from elementary I think
@@ -152,13 +161,13 @@ done) so the user does not need to guess which one is for them, what they most
 of the times know is what language they want to type in.
 
 We also need to get rid of the options tab on the keyboard plug on switchboard
-some of the stuff there conflicts with itself, othe options don't do anything
+some of the stuff there conflicts with itself, other options don't do anything
 at all because defaults were changed internally to assume it's always on,
 others don't work anymore, an most of them will be useless on a Wayland world,
 instead I have thought about something that will work for the most common
 scenarios we've found people complains about when loosing this tab "I can't
 swap X and Y keys anymore", "I can't enable the compose key where I want it"
-and "I can't change layouts anymore" the last one will hopefuly be handeled by
+and "I can't change layouts anymore" the last one will hopefully be handled by
 Gala and the fact that stuff will mostly be in one place, so my idea is the
 following:
 
@@ -193,7 +202,7 @@ to write their custom keyboard layout file. For this I have the idea of a side
 project of creating an interface that generates layout files in an intuitive
 way and without most of the limitations that the original X input method
 imposed on xkb's design in a similar way as
-Ukelele[http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=ukelele]
+[Ukelele](http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=ukelele)
 does in OSX. But I will talk about that somewhere else.
 
 This will solve a lot of problems, for instance loading a new layout right now
@@ -212,9 +221,9 @@ specific languages. On the Wayland side of things a merge was accepted on
 Weston that extended the Wayland protocol to allow a preedit section and
 feedback from the user, this is still a Weston only thing and I haven't found
 anything about it being merged into the core protocol but what this does is
-basically replaces the ibus framework with a much more standarized version of
+basically replaces the ibus framework with a much more standardized version of
 it. On the X side of things we are pretty much left with using ibus or
-implementing our own (which will be useless once we move to wayland if
+implementing our own (which will be useless once we move to Wayland if
 im-wayland gets into the core protocol).
 
 In any case, what I would like here to happen (and I haven't thought about this
@@ -229,7 +238,7 @@ need to take each language and decide which options are the most useful, which
 is a very language specific thing and requires someone who actually speaks the
 language to provide us with feedback.
 
-So, for advanced inpud methods to happen niceley we really need a lot of
+So, for advanced input methods to happen nicely we really need a lot of
 feedback from people who actually need them, we really need volunteers here.
 
 What needs to be done
@@ -249,11 +258,11 @@ I think need to be done:
 - Set the compose key on the menu key by default on every layout (this may
   require elementary to provide a set of default xkb files for all supported
   languages).
-- Add an interface to swap arbitrary keys without refering to them by keysyms,
+- Add an interface to swap arbitrary keys without referring to them by keysyms,
   but also allowing people to find out how to swap the compose key even if they
   don't have an actual menu key.
 - See if ibus packages are installed and list them on the keyboard plug. Even
-  better provide a set of preinstalled ibus engines so people choose a language
+  better provide a set of pre installed ibus engines so people choose a language
   and it _just works_.
 - Provide a subset of the options provided on the specific engine's panel directly
   on the keyboard plug (this should be doable through d-bus).
@@ -265,7 +274,7 @@ I think need to be done:
   basis and is willing to spend time giving feedback to developers.
 - Decide on an input method per language from all the available.
 - Work with each one of the language advisors to agree on a subset of
-  configuration options provided by the choosen input method. These will be
+  configuration options provided by the chosen input method. These will be
   provided directly from the switchboard plug.
 
 Final Notes
