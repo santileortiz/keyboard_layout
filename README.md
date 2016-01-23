@@ -57,21 +57,21 @@ I've seen are quite hacky, and I think we need a more drastic approach.
 
 Currently the work flow for anyone trying to type another language is:
 
-    1. Try to set up the language from the operating system's settings panel if
-       they find it then they are fine and happy.
+1. Try to set up the language from the operating system's settings panel if
+   they find it then they are fine and happy.
 
-    2. If this does not work google "how to type in <language> on
-       Linux/elementaryOS/Ubuntu" and get to some tutorial about configuring
-       ibus or spend hours deciding which of all the options you should try for
-       your language.
+2. If this does not work google "how to type in <language> on
+   Linux/elementaryOS/Ubuntu" and get to some tutorial about configuring
+   ibus or spend hours deciding which of all the options you should try for
+   your language.
 
-    3. Install ibus (or another input method), and in the case of ibus also install
-       the actual language you want to type in.
+3. Install ibus (or another input method), and in the case of ibus also install
+   the actual language you want to type in.
 
-    4. Use the interface provided by the input method which will always try to
-       override what the operating system does because it _knows better_, then
-       the user just hopes the operating system can handle this and stuff just
-       magically works, which some times doesn't happen.
+4. Use the interface provided by the input method which will always try to
+   override what the operating system does because it _knows better_, then
+   the user just hopes the operating system can handle this and stuff just
+   magically works, which some times doesn't happen.
 
 After doing this even if they succeed at step 1, there are some caveats, for
 example a lot of people got used to switch layouts by using both shifts, they
