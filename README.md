@@ -60,7 +60,7 @@ Currently the work flow for anyone trying to type another language is:
 1. Try to set up the language from the operating system's settings panel if
    they find it then they are fine and happy.
 
-2. If this does not work google "how to type in <language> on
+2. If this does not work google "how to type in _language name_ on
    Linux/elementaryOS/Ubuntu" and get to some tutorial about configuring
    ibus or spend hours deciding which of all the options you should try for
    your language.
