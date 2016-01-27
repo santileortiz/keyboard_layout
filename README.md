@@ -52,7 +52,7 @@ that did the same, but they decided to remove them in favour of better support
 for complex languages that used ibus but compromising a lot of these xkb
 options (which some times can even conflict with each other). This angered
 users greatly because they couldn't easily change their layouts as they did
-before. This was solved but most solutions I've come accross seem quite hacky,
+before. This was solved but most solutions I've come across seem quite hacky,
 and I think we need a more drastic approach.
 
 Currently the work flow for anyone trying to type in another language is:
@@ -79,8 +79,8 @@ They will be disappointed to see this does not work anymore, but the only
 reason it worked before was because X was the sole manager of the keyboard and
 implemented this by storing shortcuts as keysyms. This is not how keyboard
 shortcuts are handled anymore because X is not the only application who cares
-about them, and I beleive modern shells assume every shortcut has an
-alphanumeric symbol in the end. Maybe an approach where key release triggrers
+about them, and I believe modern shells assume every shortcut has an
+alphanumeric symbol in the end. Maybe an approach where key release triggers
 the shortcut and not an alphanumeric symbol may be better.
 
 There are other issues with the fact that the panels provided by these input
@@ -150,7 +150,7 @@ either be useless in some time (code wise) unless we start to move to the
 actual libraries that will be used on Wayland.
 
 To provide the kind of integration a user would expect from elementary I
-beleive we will need to add some new functionality to Gala so we can handle
+believe we will need to add some new functionality to Gala so we can handle
 most of the stuff at this level without forcing the user to install extra
 packages. For the basic level of input methods we should use libxkbcommon, this
 library contains all the currently used layouts on Linux but in an X free
@@ -197,7 +197,7 @@ does in OSX. But I will talk more about this another time.
 Loading arbitrary xkb files through libxkbcommon will solve several problems,
 for instance, loading a new layout right now is slow because it's compiled when
 changing and just after changing often times the next key isn't registered,
-with libxkcommon I beleive one could load all layouts to memory and change
+with libxkcommon I believe one could load all layouts to memory and change
 between them instantly. Also this solution would remain even when moving to
 Wayland and enables the most flexibility without adding a lot of interface and
 instead removing one of the most ugly tabs on the OS.
@@ -209,7 +209,7 @@ user's feedback and send it to the application, it did not provide any language
 specific capabilities. Instead other people used this framework to create
 engines for specific languages. On Wayland a merge was accepted on Weston that
 extends the Wayland protocol to allow a preedit section and feedback from the
-user, this is still a Weston only thing and I haven't come accross information
+user, this is still a Weston only thing and I haven't come across information
 about it being merged into the core protocol. But this new framework will
 eventually replace what ibus did with a much more standardized version of it.
 So, on the X side of things we are pretty much left with using ibus but it will
@@ -249,7 +249,7 @@ I think need to be done:
 - Add a way of loading arbitrary xkb files into Gala.
 - Add an interface that asks for a keypress and shows a menu with options on
   what action should be binded to it. In a similar way as to how custom
-  shorcuts are added.
+  shortcuts are added.
 - See if ibus packages are installed and list them on the keyboard plug. Even
   better a set of pre installed ibus engines can be provided so that people
   chooses a language and it _just works_.
@@ -270,7 +270,7 @@ Final Notes
 -----------
 
 All of this has come to my mind after several months of reading, mostly by
-myself, about this problem. I'm not entirely sure abour everything here but I
+myself, about this problem. I'm not entirely sure about everything here but I
 would really like people to do some mockups for the keyboard plug, I have some
 in paper that I could try to draw on Inkscape but my skills aren't great so
 don't expect much.
